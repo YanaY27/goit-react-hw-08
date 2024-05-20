@@ -1,0 +1,22 @@
+.search {
+  display: flex;
+  flex-direction: column;
+  width: 440px;
+  border-radius: 20px;
+  background: #f7f7f7;
+  height: 100px;
+  margin: 0 auto;
+}
+
+.label {
+  font-weight: bold;
+  margin: 10px auto;
+  color: black;
+}
+.input {
+  border: 1px solid;
+  width: 300px;
+  margin: 0 auto;
+  height: 30px;
+  color: black;
+}
