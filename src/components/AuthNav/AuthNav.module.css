@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  gap: 20px;
+}
+.link {
+  padding: 16px;
+  font-size: x-large;
+  transition: color 0.3s;
+}
+
+.link:hover {
+  color: #d37132;
+}
+
+.active {
+  color: #d37132;
+}

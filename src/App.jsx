@@ -1,23 +1,60 @@
 import "./App.css";
-import ContactForm from "./components/ContactForm/ContactForm";
-import SearchBox from "./components/SearchBox/SearchBox";
-import ContactList from "./components/ContactList/ContactList";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchContactsThunk } from "./redux/contactsOps";
+import { Route, Routes } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import HomePage from "./pages/HomePage/HomePage";
+import ContactsPage from "./pages/ContactsPage/ContactsPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import { selectIsRefreshing } from "./redux/auth/slice";
+import { refreshThunk } from "./redux/auth/operations";
+import RefreshLoader from "./components/RefreshLoader/RefreshLoader";
+import PrivateRoute from "./routes/PrivateRoute";
+import PublicRoute from "./routes/PublicRoute";
 
 export default function App() {
+  const isRefreshing = useSelector(selectIsRefreshing);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchContactsThunk());
+    dispatch(refreshThunk());
   }, [dispatch]);
 
-  return (
-    <>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <SearchBox />
-      <ContactList />
-    </>
+  return isRefreshing ? (
+    <RefreshLoader />
+  ) : (
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
+            <Layout />
+          </PrivateRoute>
+        }
+      >
+        <Route index element={<HomePage />} />
+        <Route path="contacts" element={<ContactsPage />} />
+      </Route>
+      <Route
+        path="register"
+        element={
+          <PublicRoute>
+            <RegisterPage />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="login"
+        element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        }
+      />
+
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
   );
 }

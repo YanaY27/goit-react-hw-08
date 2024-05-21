@@ -3,11 +3,11 @@ import * as Yup from "yup";
 import { useId } from "react";
 import s from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContactsThunk } from "../../redux/contactsOps";
+import { addContactsThunk } from "../../redux/contacts/contactsOps";
 
 const validationSchema = Yup.object({
   name: Yup.string()
-    .matches(/^[A-Za-z]+$/, "Name can only contain letters")
+    .matches(/^([A-Za-z]+(\s[A-Za-z]+)?)$/, "Name can only contain letters")
     .min(3, "Too short")
     .max(50, "Too long")
     .required("Please write a name"),

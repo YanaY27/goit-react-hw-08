@@ -1,0 +1,6 @@
+.container {
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(58, 97, 66, 0.4);
+}
