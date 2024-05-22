@@ -1,0 +1,22 @@
+.img {
+  width: 100%;
+}
+.container {
+  position: relative;
+  width: 100%;
+  background-repeat: repeat-y;
+  background-size: cover;
+  margin: 0;
+  background-attachment: fixed;
+  background-image: url("../../../public/attachment.jpg");
+}
+.tittle {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: x-large;
+  color: black;
+  top: 10px;
+  left: 10px;
+}

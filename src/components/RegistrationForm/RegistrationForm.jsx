@@ -14,15 +14,13 @@ const RegistrationForm = () => {
   const nameFieldId = useId();
 
   const FeedbackSchema = Yup.object().shape({
-    name: Yup.string()
-      .min(2, "Too Short!")
-      .max(20, "Too Long!")
-      .required("Required"),
-    email: Yup.string().email("Invalid email").required("Required"),
+    name: Yup.string().min(2, "Too Short!").max(20, "Too Long!"),
+    //   .required("Required"),
+    email: Yup.string().email("Invalid email"),
     password: Yup.string()
       .min(8, "Minimum 8 characters!")
-      .max(20, "The maximum 20 characters!")
-      .required("Required"),
+      .max(20, "The maximum 20 characters!"),
+    //   .required("Required"),
   });
   const initialValues = {
     name: "",
@@ -30,22 +28,29 @@ const RegistrationForm = () => {
     password: "",
   };
   const handleSubmit = (values, actions) => {
-    if (!values.name || !values.email || !values.password) {
-      toast.error("All fields are required!", {
-        style: {
-          backgroundColor: "#8ba162",
-          color: "#d37132",
-        },
-      });
+    if (!values && values.length === 0) {
+      console.log(123);
+
       return;
     }
-    dispatch(registerThunk(values));
-    actions.resetForm();
+    dispatch(registerThunk(values))
+      .unwrap()
+      .then(() => actions.resetForm())
+      .catch(() =>
+        toast.error("All fields are required!", {
+          icon: "😕",
+          position: "top-right",
+          style: {
+            backgroundColor: "#8ba162",
+            color: "black",
+          },
+        })
+      );
   };
 
   return (
     <div className={s.container}>
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}

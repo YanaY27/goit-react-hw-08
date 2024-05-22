@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { useId } from "react";
 import s from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
-import { addContactsThunk } from "../../redux/contacts/contactsOps";
+import { addContactsThunk } from "../../redux/contacts/operations";
 
 const validationSchema = Yup.object({
   name: Yup.string()

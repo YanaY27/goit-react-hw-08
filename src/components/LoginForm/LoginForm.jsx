@@ -5,6 +5,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useId } from "react";
 import { NavLink } from "react-router-dom";
 import { loginThunk } from "../../redux/auth/operations";
+import toast, { Toaster } from "react-hot-toast";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -12,23 +13,35 @@ const LoginForm = () => {
   const passwordFieldId = useId();
 
   const FeedbackSchema = Yup.object().shape({
-    email: Yup.string().email("Must be a valid email!").required("Required"),
+    email: Yup.string().email("Must be a valid email!"),
     password: Yup.string()
       .min(8, "Minimum 8 characters!")
-      .max(20, "The maximum 20 characters!")
-      .required("Required"),
+      .max(20, "The maximum 20 characters!"),
+    //   .required("Required"),
   });
   const initialValues = {
     email: "",
     password: "",
   };
   const handleSubmit = (values, actions) => {
-    dispatch(loginThunk(values));
-    actions.resetForm();
+    dispatch(loginThunk(values))
+      .unwrap()
+      .then(() => actions.resetForm())
+      .catch(() =>
+        toast.error("All fields are credentials and filled!", {
+          icon: "😕",
+          position: "top-right",
+          style: {
+            backgroundColor: "#8ba162",
+            color: "blak",
+          },
+        })
+      );
   };
 
   return (
     <div className={s.container}>
+      <Toaster position="top-right" reverseOrder={false} />
       <Formik
         initialValues={initialValues}
         onSubmit={handleSubmit}
