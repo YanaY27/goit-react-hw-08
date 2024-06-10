@@ -33,7 +33,7 @@ const LoginForm = () => {
           position: "top-right",
           style: {
             backgroundColor: "#8ba162",
-            color: "blak",
+            color: "black",
           },
         })
       );
